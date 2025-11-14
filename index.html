@@ -3,122 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Mask Animations - Demo</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Star Mask Animation Package - Documentation</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
             background: #f5f1e8;
+            padding: 2rem;
         }
-        .demo-header {
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
             text-align: center;
-            padding: 4rem 2rem;
-            background: #1a1a1a;
-            color: #f5f1e8;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #f5f1e8;
         }
-        .demo-header h1 {
-            font-size: 3rem;
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        /* Markdown Styles */
+        #readme-content {
+            line-height: 1.8;
+        }
+        
+        #readme-content h1 {
+            font-size: 2rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f5f1e8;
+            color: #1a1a1a;
+        }
+        
+        #readme-content h2 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+        
+        #readme-content h3 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #1a1a1a;
+        }
+        
+        #readme-content p {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        #readme-content ul, #readme-content ol {
+            margin-left: 2rem;
             margin-bottom: 1rem;
         }
-        .demo-header p {
-            font-size: 1.25rem;
-            opacity: 0.8;
+        
+        #readme-content li {
+            margin-bottom: 0.5rem;
         }
-        .demo-nav {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: rgba(26, 26, 26, 0.9);
-            padding: 1rem;
-            border-radius: 8px;
+        
+        #readme-content code {
+            background: #f5f1e8;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d63384;
         }
-        .demo-nav a {
-            display: block;
+        
+        #readme-content pre {
+            background: #1a1a1a;
+            color: #f5f1e8;
+            padding: 1.5rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+        
+        #readme-content pre code {
+            background: transparent;
+            color: #f5f1e8;
+            padding: 0;
+        }
+        
+        #readme-content blockquote {
+            border-left: 4px solid #1a1a1a;
+            padding-left: 1rem;
+            margin-left: 0;
+            margin-bottom: 1rem;
+            color: #666;
+            font-style: italic;
+        }
+        
+        #readme-content a {
+            color: #1a1a1a;
+            text-decoration: underline;
+        }
+        
+        #readme-content a:hover {
+            color: #000;
+        }
+        
+        #readme-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        #readme-content table th,
+        #readme-content table td {
+            padding: 0.75rem;
+            border: 1px solid #f5f1e8;
+            text-align: left;
+        }
+        
+        #readme-content table th {
+            background: #f5f1e8;
+            font-weight: 600;
+        }
+        
+        #readme-content hr {
+            border: none;
+            border-top: 2px solid #f5f1e8;
+            margin: 2rem 0;
+        }
+        
+        .nav-links {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #f5f1e8;
+        }
+        
+        .nav-links a {
+            display: inline-block;
+            margin: 0 1rem;
+            padding: 0.75rem 1.5rem;
+            background: #1a1a1a;
             color: #f5f1e8;
             text-decoration: none;
-            padding: 0.5rem;
-            margin: 0.25rem 0;
             border-radius: 4px;
             transition: background 0.3s;
         }
-        .demo-nav a:hover {
-            background: rgba(245, 241, 232, 0.1);
+        
+        .nav-links a:hover {
+            background: #333;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            #readme-content h1 {
+                font-size: 1.75rem;
+            }
+            
+            #readme-content h2 {
+                font-size: 1.35rem;
+            }
         }
     </style>
 </head>
 <body>
-    <nav class="demo-nav">
-        <a href="#diamond">Diamond Reveal</a>
-        <a href="#circles">Concentric Circles</a>
-        <a href="#combined">Combined</a>
-    </nav>
-
-    <header class="demo-header">
-        <h1>Star Mask Animations</h1>
-        <p>Scroll down to see the effects in action</p>
-    </header>
-
-    <!-- Diamond Reveal Section -->
-    <section id="diamond" class="diamond-reveal-section" data-animation="star-mask">
-        <div class="reveal-content-layer">
-            <div class="content-wrapper">
-                <h2 class="reveal-title">Diamond Reveal</h2>
-                <p>Scroll to reveal the background through a diamond-shaped mask</p>
-            </div>
+    <div class="container">
+        <div class="header">
+            <h1>Star Mask Animation Package</h1>
+            <p>Documentation & Implementation Guide</p>
         </div>
-        <div class="reveal-image-layer" data-mask-block>
-            <div class="background-image-container">
-                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80" alt="Forest Background" class="reveal-background-image">
-            </div>
+        
+        <div id="readme-content" class="loading">Loading README.md...</div>
+        
+        <div class="nav-links">
+            <a href="diamond-reveal.html">View Diamond Reveal Demo</a>
+            <a href="concentric-circles.html">View Circles Demo</a>
+            <a href="combined.html">View Combined Demo</a>
         </div>
-        <div class="reveal-spacer"></div>
-    </section>
-
-    <!-- Spacer Section -->
-    <section class="next-section">
-        <div class="container">
-            <h2>Section Break</h2>
-            <p>Content continues here. Scroll down for the next effect.</p>
-        </div>
-    </section>
-
-    <!-- Concentric Circles Section -->
-    <section id="circles" class="circles-section" data-counter-block data-min="0" data-max="99.95">
-        <div class="circles-container">
-            <span class="circle" data-circle="0"></span>
-            <span class="circle" data-circle="1"></span>
-            <span class="circle" data-circle="2"></span>
-            <div class="circles-content">
-            <p class="circles-subtitle">With the use of a HEPA filter</p>
-            <div class="circles-counter">
-                <span class="counter-number" data-counter-text="number">0</span>
-                <span class="counter-decimal">.</span>
-                <span class="counter-percentage" data-counter-text="decimal">00%</span>
-            </div>
-            <p class="circles-description">of air pollutants are removed, producing clean air inside your home.</p>
-            </div>
-        </div>
-        <div class="circles-spacer"></div>
-    </section>
-
-    <!-- Final Section -->
-    <section id="combined" class="next-section">
-        <div class="container">
-            <h2>All Done!</h2>
-            <p>You've seen both effects. Check the documentation files for implementation instructions.</p>
-            <ul style="text-align: left; max-width: 600px; margin: 2rem auto;">
-                <li><strong>README.md</strong> - Full documentation</li>
-                <li><strong>ELEMENTOR-QUICK-START.md</strong> - Quick guide for Elementor</li>
-                <li><strong>elementor-diamond-reveal.html</strong> - Ready-to-use HTML for Elementor</li>
-                <li><strong>elementor-concentric-circles.html</strong> - Ready-to-use HTML for Elementor</li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- GSAP CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="combined-animations.js"></script>
+    </div>
+    
+    <script>
+        // Fetch and render README.md
+        fetch('README.md')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load README.md');
+                }
+                return response.text();
+            })
+            .then(markdown => {
+                // Configure marked options
+                marked.setOptions({
+                    breaks: true,
+                    gfm: true
+                });
+                
+                // Convert markdown to HTML
+                const html = marked.parse(markdown);
+                
+                // Insert into page
+                document.getElementById('readme-content').innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById('readme-content').innerHTML = 
+                    '<p style="color: #d63384;">Error loading README.md: ' + error.message + '</p>';
+            });
+    </script>
 </body>
 </html>
-
