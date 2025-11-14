@@ -33,16 +33,21 @@ function initConcentricCircles() {
     const maxScales = circles.length > 0 ? 
         Array.from({length: circles.length}, (_, i) => 3 + (i * 0.5)) : [3, 3.5, 4];
     
-    // FIXED: Calculate scale per progress ONCE for all circles (same for everyone)
-    // This ensures all circles grow at the exact same scale per progress unit
-    const scalePerProgress = 3.5; // Fixed scale growth per progress (same for all circles)
+    // Calculate scale per progress to fit all circles within 0-1 progress range
+    // We need to divide the progress range among all circles
+    const triggerScale = 3.5; // Scale value that triggers next circle
+    const numCircles = circles.length;
+    // Each circle needs progress to reach 3.5, so divide 1.0 by numCircles
+    // This ensures all circles fit within the scroll range
+    const progressPerCircle = 1.0 / numCircles; // Equal progress for each circle
+    const scalePerProgress = (triggerScale - initialScale) / progressPerCircle; // Scale growth per progress unit
     
     // Calculate when each circle should start (based on previous circle reaching 3.5 scale)
     // First circle starts at progress 0
-    // Second circle starts when first reaches scale 3.5: progress = (3.5 - initialScale) / scalePerProgress
-    // Third circle starts when second reaches scale 3.5: same calculation but from second's start
-    const triggerScale = 3.5; // Scale value that triggers next circle
-    const progressWhenReaches35 = (triggerScale - initialScale) / scalePerProgress; // Progress when scale = 3.5
+    // Second circle starts when first reaches scale 3.5
+    // Third circle starts when second reaches scale 3.5
+    // Progress needed for each circle to reach 3.5
+    const progressWhenReaches35 = progressPerCircle; // Same for all circles now
     
     // Animate each circle with staggered appearance based on previous circle's scale
     circles.forEach((circle, index) => {
@@ -50,7 +55,7 @@ function initConcentricCircles() {
         
         // Calculate when this circle should start growing
         // Each circle starts when previous reaches scale 3.5
-        const startProgress = index * progressWhenReaches35; // 0, ~0.957, ~1.914, etc.
+        const startProgress = index * progressWhenReaches35; // 0, progressPerCircle, 2*progressPerCircle, etc.
         
         // Set initial state - all start at same size, invisible until their time
         circle.style.transform = `scale(${initialScale})`;
