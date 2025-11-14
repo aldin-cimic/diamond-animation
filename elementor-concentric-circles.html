@@ -1,0 +1,305 @@
+<!-- 
+    ELEMENTOR CONCENTRIC CIRCLES IMPLEMENTATION
+    Copy this HTML into an Elementor HTML widget
+-->
+
+<section class="circles-section" data-counter-block data-min="0" data-max="99.95">
+    <!-- Circles Container -->
+    <div class="circles-container">
+        <span class="circle" data-circle="0"></span>
+        <span class="circle" data-circle="1"></span>
+        <span class="circle" data-circle="2"></span>
+        
+        <!-- Content Overlay - INSIDE container for proper centering -->
+        <div class="circles-content">
+        <p class="circles-subtitle">With the use of a HEPA filter</p>
+        <div class="circles-counter">
+            <span class="counter-number" data-counter-text="number">0</span>
+            <span class="counter-decimal">.</span>
+            <span class="counter-percentage" data-counter-text="decimal">00%</span>
+        </div>
+        <p class="circles-description">of air pollutants are removed, producing clean air inside your home.</p>
+        </div>
+    </div>
+
+    <!-- Spacer to control scroll height -->
+    <div class="circles-spacer"></div>
+</section>
+
+<!-- 
+    Add this CSS in Elementor: 
+    Settings > Advanced > Custom CSS > or in the page's Custom CSS section
+-->
+<style>
+.circles-section {
+    min-height: 300vh;
+    position: relative;
+    background-color: #1a1a1a;
+    color: #f5f1e8;
+}
+
+.circles-container {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.circle {
+    position: absolute;
+    border: 2px solid #f5f1e8;
+    border-radius: 50%;
+    opacity: 0.6;
+    will-change: transform;
+    top: 50%;
+    left: 50%;
+    transform: scale(0);
+    transform-origin: center center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.circle[data-circle="0"] {
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    margin-left: -100px;
+}
+
+.circle[data-circle="1"] {
+    width: 400px;
+    height: 400px;
+    margin-top: -200px;
+    margin-left: -200px;
+}
+
+.circle[data-circle="2"] {
+    width: 600px;
+    height: 600px;
+    margin-top: -300px;
+    margin-left: -300px;
+}
+
+.circles-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    width: 100%;
+    max-width: 600px;
+    padding: 2rem;
+    pointer-events: none;
+}
+
+.circles-subtitle {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+.circles-counter {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 0.9;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    font-family: 'Courier New', monospace;
+}
+
+.counter-number,
+.counter-decimal,
+.counter-percentage {
+    display: inline-block;
+}
+
+.circles-description {
+    font-size: 1rem;
+    max-width: 15rem;
+    margin: 0 auto;
+    opacity: 0.9;
+}
+
+.circles-spacer {
+    height: 100vh;
+    position: relative;
+}
+
+@media (min-width: 768px) {
+    .circles-subtitle {
+        font-size: 0.875rem;
+    }
+
+    .circles-counter {
+        font-size: 6rem;
+    }
+
+    .circles-description {
+        font-size: 1.125rem;
+        max-width: none;
+    }
+
+    .circle[data-circle="0"] {
+        width: 300px;
+        height: 300px;
+        margin-top: -150px;
+        margin-left: -150px;
+    }
+
+    .circle[data-circle="1"] {
+        width: 600px;
+        height: 600px;
+        margin-top: -300px;
+        margin-left: -300px;
+    }
+
+    .circle[data-circle="2"] {
+        width: 900px;
+        height: 900px;
+        margin-top: -450px;
+        margin-left: -450px;
+    }
+}
+</style>
+
+<!-- 
+    Add this JavaScript in Elementor:
+    Settings > Advanced > Custom Code > Footer
+    Or use a Code widget at the bottom of the page
+-->
+<script>
+(function() {
+    if (typeof gsap === 'undefined') {
+        var gsapScript = document.createElement('script');
+        gsapScript.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js';
+        document.head.appendChild(gsapScript);
+        
+        var scrollTriggerScript = document.createElement('script');
+        scrollTriggerScript.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js';
+        scrollTriggerScript.onload = initConcentricCircles;
+        document.head.appendChild(scrollTriggerScript);
+    } else {
+        if (typeof ScrollTrigger !== 'undefined') {
+            initConcentricCircles();
+        } else {
+            var scrollTriggerScript = document.createElement('script');
+            scrollTriggerScript.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js';
+            scrollTriggerScript.onload = initConcentricCircles;
+            document.head.appendChild(scrollTriggerScript);
+        }
+    }
+    
+    function initConcentricCircles() {
+        gsap.registerPlugin(ScrollTrigger);
+        const section = document.querySelector('[data-counter-block]');
+        const circles = document.querySelectorAll('[data-circle]');
+        const counterNumber = document.querySelector('[data-counter-text="number"]');
+        const counterDecimal = document.querySelector('[data-counter-text="decimal"]');
+        
+        if (!section || circles.length === 0) return;
+        
+        const minValue = parseFloat(section.getAttribute('data-min')) || 0;
+        const maxValue = parseFloat(section.getAttribute('data-max')) || 99.95;
+        
+        // All circles start at the same initial size
+        const initialScale = 0.15; // Starting size for all circles
+        
+        // FIXED: Calculate scale per progress ONCE for all circles (same for everyone)
+        // This ensures all circles grow at the exact same scale per progress unit
+        const scalePerProgress = 3.5; // Fixed scale growth per progress (same for all circles)
+        
+        // Calculate when each circle should start (based on previous circle reaching 3.5 scale)
+        // First circle starts at progress 0
+        // Second circle starts when first reaches scale 3.5: progress = (3.5 - initialScale) / scalePerProgress
+        // Third circle starts when second reaches scale 3.5: same calculation but from second's start
+        const triggerScale = 3.5; // Scale value that triggers next circle
+        const progressWhenReaches35 = (triggerScale - initialScale) / scalePerProgress; // Progress when scale = 3.5
+        
+        circles.forEach((circle, index) => {
+            const maxScale = 3 + (index * 0.5);
+            
+            // Calculate when this circle should start growing
+            // Each circle starts when previous reaches scale 3.5
+            const startProgress = index * progressWhenReaches35; // 0, ~0.957, ~1.914, etc.
+            
+            // Set initial state - all start at same size, invisible until their time
+            circle.style.transform = 'scale(' + initialScale + ')';
+            circle.style.opacity = '0'; // All start invisible
+            
+            // Use ScrollTrigger to animate
+            ScrollTrigger.create({
+                trigger: section,
+                start: 'top center',
+                end: 'bottom center',
+                scrub: true,
+                onUpdate: (self) => {
+                    const progress = self.progress;
+                    
+                    // All circles grow at the SAME scale per progress (FIXED value)
+                    // All circles start at initialScale when they appear, then grow at same rate
+                    let scale = initialScale;
+                    if (progress >= startProgress) {
+                        // Calculate scale: start from initialScale, grow by same amount per progress
+                        // ALL circles use the SAME scalePerProgress value
+                        // Scale grows from the point where this circle started (progress - startProgress)
+                        const growthProgress = progress - startProgress;
+                        scale = initialScale + (growthProgress * scalePerProgress);
+                    }
+                    
+                    // Opacity: based on scale - small circles are transparent, big circles are opaque
+                    // Only show circle if it has appeared (progress >= startProgress)
+                    let opacity = 0;
+                    if (progress >= startProgress && scale >= initialScale) {
+                        // Calculate opacity based on current scale
+                        // Use a reference max scale for opacity normalization (to avoid division by 0)
+                        const referenceMaxScale = 3; // First circle's maxScale
+                        const scaleNormalized = Math.min(1, (scale - initialScale) / (referenceMaxScale - initialScale));
+                        // Map normalized scale to opacity: 0.1 (min) to 0.6 (max)
+                        opacity = 0.1 + (scaleNormalized * 0.5); // 0.1 when small, 0.6 when big
+                        
+                        // Also fade out at the very end (last 10%)
+                        if (progress > 0.9) {
+                            const fadeOutProgress = (1 - progress) / 0.1;
+                            opacity *= fadeOutProgress; // Fade out in last 10%
+                        }
+                    }
+                    
+                    // Scale only - no translate (centering is handled by CSS with margin)
+                    circle.style.transform = 'scale(' + scale + ')';
+                    circle.style.opacity = opacity;
+                }
+            });
+        });
+        
+        if (counterNumber && counterDecimal) {
+            let counterObj = { value: minValue };
+            gsap.to(counterObj, {
+                value: maxValue,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top center',
+                    end: 'bottom center',
+                    scrub: true,
+                    onUpdate: (self) => {
+                        const currentValue = minValue + (maxValue - minValue) * self.progress;
+                        const parts = currentValue.toFixed(2).split('.');
+                        counterNumber.textContent = parts[0];
+                        counterDecimal.textContent = parts[1] + '%';
+                    }
+                }
+            });
+        }
+    }
+})();
+</script>
+

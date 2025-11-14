@@ -1,0 +1,178 @@
+<!-- 
+    ELEMENTOR DIAMOND REVEAL IMPLEMENTATION
+    Copy this HTML into an Elementor HTML widget
+-->
+
+<section class="diamond-reveal-section" data-animation="star-mask">
+    <!-- Background Content Layer -->
+    <div class="reveal-content-layer">
+        <div class="content-wrapper">
+            <h2 class="reveal-title">Your Content Here</h2>
+            <p>This text will be visible before and after the reveal</p>
+        </div>
+    </div>
+
+    <!-- Background Image Layer (will be revealed through diamond mask) -->
+    <div class="reveal-image-layer" data-mask-block>
+        <div class="background-image-container">
+            <img src="YOUR_IMAGE_URL_HERE" alt="Background Image" class="reveal-background-image">
+        </div>
+    </div>
+
+    <!-- Spacer to control scroll height -->
+    <div class="reveal-spacer"></div>
+</section>
+
+<!-- 
+    Add this CSS in Elementor: 
+    Settings > Advanced > Custom CSS > or in the page's Custom CSS section
+-->
+<style>
+/* Copy the diamond reveal styles from styles.css */
+.diamond-reveal-section {
+    position: relative;
+    display: grid;
+    z-index: 1;
+    margin-bottom: -100vh;
+    margin-bottom: -100svh;
+}
+
+.reveal-content-layer {
+    height: 100vh;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background-color: #f5f1e8;
+    color: #1a1a1a;
+    z-index: 1;
+}
+
+.content-wrapper {
+    padding: 2.5rem;
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+.reveal-title {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.reveal-image-layer {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    z-index: 2;
+    mask-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBvbHlnb24gcG9pbnRzPSI1MCwwIDEwMCw1MCA1MCwxMDAgMCw1MCIgZmlsbD0id2hpdGUiLz48L3N2Zz4=');
+    mask-size: 0px;
+    mask-repeat: no-repeat;
+    mask-position: center center;
+    -webkit-mask-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBvbHlnb24gcG9pbnRzPSI1MCwwIDEwMCw1MCA1MCwxMDAgMCw1MCIgZmlsbD0id2hpdGUiLz48L3N2Zz4=');
+    -webkit-mask-size: 0px;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    opacity: 0;
+}
+
+.reveal-image-layer.mask-active {
+    opacity: 1;
+}
+
+.background-image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reveal-background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.reveal-spacer {
+    padding-top: 100vh;
+    position: relative;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    z-index: 3;
+}
+</style>
+
+<!-- 
+    Add this JavaScript in Elementor:
+    Settings > Advanced > Custom Code > Footer
+    Or use a Code widget at the bottom of the page
+-->
+<script>
+(function() {
+    if (typeof gsap === 'undefined') {
+        var gsapScript = document.createElement('script');
+        gsapScript.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js';
+        document.head.appendChild(gsapScript);
+        
+        var scrollTriggerScript = document.createElement('script');
+        scrollTriggerScript.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js';
+        scrollTriggerScript.onload = initDiamondReveal;
+        document.head.appendChild(scrollTriggerScript);
+    } else {
+        if (typeof ScrollTrigger !== 'undefined') {
+            initDiamondReveal();
+        } else {
+            var scrollTriggerScript = document.createElement('script');
+            scrollTriggerScript.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js';
+            scrollTriggerScript.onload = initDiamondReveal;
+            document.head.appendChild(scrollTriggerScript);
+        }
+    }
+    
+    function initDiamondReveal() {
+        gsap.registerPlugin(ScrollTrigger);
+        const section = document.querySelector('[data-animation="star-mask"]');
+        const maskBlock = document.querySelector('[data-mask-block]');
+        
+        if (!section || !maskBlock) return;
+        
+        const maxMaskSize = Math.max(window.innerWidth, window.innerHeight) * 3;
+        maskBlock.style.maskSize = '0px';
+        maskBlock.style.webkitMaskSize = '0px';
+        
+        gsap.to(maskBlock, {
+            maskSize: maxMaskSize + 'px',
+            WebkitMaskSize: maxMaskSize + 'px',
+            opacity: 1,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: section,
+                start: 'top top',
+                end: '+=200%',
+                scrub: true,
+                onEnter: () => maskBlock.classList.add('mask-active'),
+                onLeave: () => maskBlock.classList.add('mask-active'),
+                onEnterBack: () => maskBlock.classList.add('mask-active'),
+                onLeaveBack: () => maskBlock.classList.remove('mask-active')
+            }
+        });
+    }
+})();
+</script>
+

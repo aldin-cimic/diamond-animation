@@ -1,0 +1,305 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #1a1a1a;
+    overflow-x: hidden;
+}
+
+/* ========================================
+   DIAMOND REVEAL EFFECT STYLES
+   ======================================== */
+
+.diamond-reveal-section {
+    position: relative;
+    display: grid;
+    z-index: 1;
+    margin-bottom: -100vh;
+    margin-bottom: -100svh;
+}
+
+.reveal-content-layer {
+    height: 100vh;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background-color: #f5f1e8;
+    color: #1a1a1a;
+    z-index: 1;
+}
+
+.content-wrapper {
+    padding: 2.5rem;
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+.reveal-title {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.reveal-content-layer p {
+    font-size: 1.25rem;
+    opacity: 0.8;
+}
+
+/* Background Image Layer */
+.reveal-image-layer {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    z-index: 2;
+    /* Mask will be applied via JavaScript */
+    mask-image: url('diamond-mask.svg');
+    mask-size: 0px;
+    mask-repeat: no-repeat;
+    mask-position: center center;
+    -webkit-mask-image: url('diamond-mask.svg');
+    -webkit-mask-size: 0px;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.reveal-image-layer.mask-active {
+    opacity: 1;
+}
+
+.background-image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reveal-background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Spacer for scroll control */
+.reveal-spacer {
+    padding-top: 100vh;
+    position: relative;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    z-index: 3;
+}
+
+/* ========================================
+   CONCENTRIC CIRCLES EFFECT STYLES
+   ======================================== */
+
+.circles-section {
+    min-height: 300vh;
+    position: relative;
+    background-color: #1a1a1a;
+    color: #f5f1e8;
+}
+
+.circles-container {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.circle {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border: 2px solid #f5f1e8;
+    border-radius: 50%;
+    opacity: 0;
+    will-change: transform, opacity;
+    top: 50%;
+    left: 50%;
+    transform: scale(0.15);
+    transform-origin: center center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Different sizes for concentric effect - center each by negative margin */
+.circle[data-circle="0"] {
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    margin-left: -100px;
+}
+
+.circle[data-circle="1"] {
+    width: 400px;
+    height: 400px;
+    margin-top: -200px;
+    margin-left: -200px;
+}
+
+.circle[data-circle="2"] {
+    width: 600px;
+    height: 600px;
+    margin-top: -300px;
+    margin-left: -300px;
+}
+
+.circles-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    width: 100%;
+    max-width: 600px;
+    padding: 2rem;
+    pointer-events: none;
+}
+
+.circles-subtitle {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+.circles-counter {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 0.9;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    font-family: 'Courier New', monospace;
+}
+
+.counter-number,
+.counter-decimal,
+.counter-percentage {
+    display: inline-block;
+}
+
+.circles-description {
+    font-size: 1rem;
+    max-width: 15rem;
+    margin: 0 auto;
+    opacity: 0.9;
+}
+
+/* Spacer for scroll control */
+.circles-spacer {
+    height: 100vh;
+    position: relative;
+}
+
+/* ========================================
+   NEXT SECTION STYLES
+   ======================================== */
+
+.next-section {
+    padding: 5rem 2rem;
+    background-color: #f5f1e8;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.next-section h2 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+.next-section p {
+    font-size: 1.25rem;
+    line-height: 1.8;
+}
+
+/* ========================================
+   RESPONSIVE STYLES
+   ======================================== */
+
+@media (min-width: 768px) {
+    .reveal-title {
+        font-size: 6rem;
+    }
+
+    .circles-subtitle {
+        font-size: 0.875rem;
+    }
+
+    .circles-counter {
+        font-size: 6rem;
+    }
+
+    .circles-description {
+        font-size: 1.125rem;
+        max-width: none;
+    }
+
+    .circle[data-circle="0"] {
+        width: 300px;
+        height: 300px;
+        margin-top: -150px;
+        margin-left: -150px;
+    }
+
+    .circle[data-circle="1"] {
+        width: 600px;
+        height: 600px;
+        margin-top: -300px;
+        margin-left: -300px;
+    }
+
+    .circle[data-circle="2"] {
+        width: 900px;
+        height: 900px;
+        margin-top: -450px;
+        margin-left: -450px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .reveal-title {
+        font-size: 8rem;
+    }
+
+    .circles-counter {
+        font-size: 8rem;
+    }
+}
+

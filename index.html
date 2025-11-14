@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Mask Animations - Demo</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: #f5f1e8;
+        }
+        .demo-header {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: #1a1a1a;
+            color: #f5f1e8;
+        }
+        .demo-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .demo-header p {
+            font-size: 1.25rem;
+            opacity: 0.8;
+        }
+        .demo-nav {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(26, 26, 26, 0.9);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        .demo-nav a {
+            display: block;
+            color: #f5f1e8;
+            text-decoration: none;
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .demo-nav a:hover {
+            background: rgba(245, 241, 232, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <nav class="demo-nav">
+        <a href="#diamond">Diamond Reveal</a>
+        <a href="#circles">Concentric Circles</a>
+        <a href="#combined">Combined</a>
+    </nav>
+
+    <header class="demo-header">
+        <h1>Star Mask Animations</h1>
+        <p>Scroll down to see the effects in action</p>
+    </header>
+
+    <!-- Diamond Reveal Section -->
+    <section id="diamond" class="diamond-reveal-section" data-animation="star-mask">
+        <div class="reveal-content-layer">
+            <div class="content-wrapper">
+                <h2 class="reveal-title">Diamond Reveal</h2>
+                <p>Scroll to reveal the background through a diamond-shaped mask</p>
+            </div>
+        </div>
+        <div class="reveal-image-layer" data-mask-block>
+            <div class="background-image-container">
+                <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80" alt="Forest Background" class="reveal-background-image">
+            </div>
+        </div>
+        <div class="reveal-spacer"></div>
+    </section>
+
+    <!-- Spacer Section -->
+    <section class="next-section">
+        <div class="container">
+            <h2>Section Break</h2>
+            <p>Content continues here. Scroll down for the next effect.</p>
+        </div>
+    </section>
+
+    <!-- Concentric Circles Section -->
+    <section id="circles" class="circles-section" data-counter-block data-min="0" data-max="99.95">
+        <div class="circles-container">
+            <span class="circle" data-circle="0"></span>
+            <span class="circle" data-circle="1"></span>
+            <span class="circle" data-circle="2"></span>
+            <div class="circles-content">
+            <p class="circles-subtitle">With the use of a HEPA filter</p>
+            <div class="circles-counter">
+                <span class="counter-number" data-counter-text="number">0</span>
+                <span class="counter-decimal">.</span>
+                <span class="counter-percentage" data-counter-text="decimal">00%</span>
+            </div>
+            <p class="circles-description">of air pollutants are removed, producing clean air inside your home.</p>
+            </div>
+        </div>
+        <div class="circles-spacer"></div>
+    </section>
+
+    <!-- Final Section -->
+    <section id="combined" class="next-section">
+        <div class="container">
+            <h2>All Done!</h2>
+            <p>You've seen both effects. Check the documentation files for implementation instructions.</p>
+            <ul style="text-align: left; max-width: 600px; margin: 2rem auto;">
+                <li><strong>README.md</strong> - Full documentation</li>
+                <li><strong>ELEMENTOR-QUICK-START.md</strong> - Quick guide for Elementor</li>
+                <li><strong>elementor-diamond-reveal.html</strong> - Ready-to-use HTML for Elementor</li>
+                <li><strong>elementor-concentric-circles.html</strong> - Ready-to-use HTML for Elementor</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- GSAP CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="combined-animations.js"></script>
+</body>
+</html>
+

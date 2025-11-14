@@ -1,0 +1,71 @@
+/**
+ * Diamond Reveal Animation
+ * Reveals a background image through a diamond-shaped mask as user scrolls
+ */
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger);
+
+// Wait for DOM to be ready
+document.addEventListener('DOMContentLoaded', function() {
+    initDiamondReveal();
+});
+
+function initDiamondReveal() {
+    const section = document.querySelector('[data-animation="star-mask"]');
+    const maskBlock = document.querySelector('[data-mask-block]');
+    
+    if (!section || !maskBlock) {
+        console.warn('Diamond reveal elements not found');
+        return;
+    }
+
+    // Get viewport dimensions
+    const getViewportSize = () => {
+        return Math.max(window.innerWidth, window.innerHeight);
+    };
+
+    // Calculate maximum mask size (should cover entire viewport)
+    const maxMaskSize = getViewportSize() * 3; // 3x viewport for smooth reveal
+
+    // Initial mask size
+    maskBlock.style.maskSize = '0px';
+    maskBlock.style.webkitMaskSize = '0px';
+
+    // Create ScrollTrigger animation
+    gsap.to(maskBlock, {
+        maskSize: `${maxMaskSize}px`,
+        WebkitMaskSize: `${maxMaskSize}px`,
+        opacity: 1,
+        ease: 'none',
+        scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: '+=200%', // Scroll distance for reveal (200% of viewport height)
+            scrub: true, // Smooth scrubbing based on scroll position
+            pin: false, // Don't pin, let it scroll naturally
+            onEnter: () => {
+                maskBlock.classList.add('mask-active');
+            },
+            onLeave: () => {
+                maskBlock.classList.add('mask-active');
+            },
+            onEnterBack: () => {
+                maskBlock.classList.add('mask-active');
+            },
+            onLeaveBack: () => {
+                maskBlock.classList.remove('mask-active');
+            }
+        }
+    });
+
+    // Handle window resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            ScrollTrigger.refresh();
+        }, 250);
+    });
+}
+
