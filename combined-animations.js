@@ -185,10 +185,16 @@ function initConcentricCircles() {
         });
     });
 
-    // Animate counter if present
+    // Animate counter if present with inertia effect
     if (counterNumber && counterDecimal) {
         let counterObj = { value: minValue };
+        let lastProgress = 0;
+        let lastTime = Date.now();
+        let velocity = 0;
+        let inertiaTween = null;
+        let scrollStopTimer = null;
         
+        // Create the main scroll animation
         gsap.to(counterObj, {
             value: maxValue,
             ease: 'none',
@@ -196,16 +202,85 @@ function initConcentricCircles() {
                 trigger: section,
                 start: 'top center',
                 end: 'bottom center',
-                scrub: true,
+                scrub: 1, // Add slight smoothing
                 onUpdate: (self) => {
-                    // Format the counter value
-                    const currentValue = minValue + (maxValue - minValue) * self.progress;
-                    const parts = currentValue.toFixed(2).split('.');
-                    counterNumber.textContent = parts[0];
-                    counterDecimal.textContent = parts[1] + '%';
+                    const currentTime = Date.now();
+                    const timeDelta = currentTime - lastTime;
+                    
+                    if (timeDelta > 0) {
+                        // Calculate scroll velocity
+                        const progressDelta = self.progress - lastProgress;
+                        velocity = progressDelta / (timeDelta / 1000); // Progress per second
+                        
+                        // Update target value
+                        const targetValue = minValue + (maxValue - minValue) * self.progress;
+                        
+                        // Kill any existing inertia animation
+                        if (inertiaTween) {
+                            inertiaTween.kill();
+                            inertiaTween = null;
+                        }
+                        
+                        // Clear scroll stop timer
+                        if (scrollStopTimer) {
+                            clearTimeout(scrollStopTimer);
+                            scrollStopTimer = null;
+                        }
+                        
+                        // Update counter smoothly
+                        gsap.to(counterObj, {
+                            value: targetValue,
+                            duration: 0.3,
+                            ease: 'power2.out',
+                            onUpdate: () => {
+                                const parts = counterObj.value.toFixed(2).split('.');
+                                counterNumber.textContent = parts[0];
+                                counterDecimal.textContent = parts[1] + '%';
+                            }
+                        });
+                        
+                        lastProgress = self.progress;
+                        lastTime = currentTime;
+                        
+                        // Set timer to detect scroll stop and apply inertia
+                        scrollStopTimer = setTimeout(() => {
+                            applyInertia();
+                        }, 150); // Wait 150ms after last scroll update
+                    }
                 }
             }
         });
+        
+        // Function to apply inertia effect when scroll stops
+        function applyInertia() {
+            if (inertiaTween) {
+                inertiaTween.kill();
+            }
+            
+            if (Math.abs(velocity) > 0.01) {
+                // Calculate inertia distance (continues a bit based on velocity)
+                const inertiaDistance = velocity * 0.15; // Adjust multiplier for inertia strength
+                const currentProgress = (counterObj.value - minValue) / (maxValue - minValue);
+                const targetProgress = Math.max(0, Math.min(1, currentProgress + inertiaDistance));
+                const targetValue = minValue + (maxValue - minValue) * targetProgress;
+                
+                // Animate to final position with ease-out for inertia feel
+                inertiaTween = gsap.to(counterObj, {
+                    value: targetValue,
+                    duration: 0.6,
+                    ease: 'power3.out',
+                    onUpdate: () => {
+                        const parts = counterObj.value.toFixed(2).split('.');
+                        counterNumber.textContent = parts[0];
+                        counterDecimal.textContent = parts[1] + '%';
+                    },
+                    onComplete: () => {
+                        velocity = 0; // Reset velocity after inertia completes
+                        inertiaTween = null;
+                    }
+                });
+            }
+        }
     }
 }
 
