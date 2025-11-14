@@ -108,7 +108,7 @@
 }
 
 .reveal-spacer {
-    padding-top: 100vh;
+    padding-top: 400vh; /* Increased from 100vh to 400vh to match the scroll distance */
     position: relative;
     grid-row-start: 1;
     grid-row-end: 1;
@@ -164,7 +164,7 @@
             scrollTrigger: {
                 trigger: section,
                 start: 'top top',
-                end: '+=200%',
+                end: '+=400%', // Scroll distance for reveal (400% of viewport height - longer duration)
                 scrub: true,
                 onEnter: () => maskBlock.classList.add('mask-active'),
                 onLeave: () => maskBlock.classList.add('mask-active'),

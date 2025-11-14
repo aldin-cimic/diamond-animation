@@ -70,12 +70,12 @@ body {
     grid-column-start: 1;
     grid-column-end: 1;
     z-index: 2;
-    /* Mask will be applied via JavaScript */
-    mask-image: url('diamond-mask.svg');
+    /* Mask will be applied via JavaScript - using inline SVG data URI to avoid CORS issues */
+    mask-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBvbHlnb24gcG9pbnRzPSI1MCwwIDEwMCw1MCA1MCwxMDAgMCw1MCIgZmlsbD0id2hpdGUiIC8+PC9zdmc+');
     mask-size: 0px;
     mask-repeat: no-repeat;
     mask-position: center center;
-    -webkit-mask-image: url('diamond-mask.svg');
+    -webkit-mask-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBvbHlnb24gcG9pbnRzPSI1MCwwIDEwMCw1MCA1MCwxMDAgMCw1MCIgZmlsbD0id2hpdGUiIC8+PC9zdmc+');
     -webkit-mask-size: 0px;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
@@ -102,9 +102,9 @@ body {
     display: block;
 }
 
-/* Spacer for scroll control */
+/* Spacer for scroll control - increased height for longer reveal duration */
 .reveal-spacer {
-    padding-top: 100vh;
+    padding-top: 400vh; /* Increased from 100vh to 400vh to match the scroll distance */
     position: relative;
     grid-row-start: 1;
     grid-row-end: 1;

@@ -41,7 +41,7 @@ function initDiamondReveal() {
         scrollTrigger: {
             trigger: section,
             start: 'top top',
-            end: '+=200%', // Scroll distance for reveal (200% of viewport height)
+            end: '+=400%', // Scroll distance for reveal (400% of viewport height - longer duration)
             scrub: true, // Smooth scrubbing based on scroll position
             pin: false, // Don't pin, let it scroll naturally
             onEnter: () => {
