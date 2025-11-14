@@ -22,11 +22,16 @@ function initDiamondReveal() {
 
     // Get viewport dimensions
     const getViewportSize = () => {
-        return Math.max(window.innerWidth, window.innerHeight);
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        // Calculate diagonal dimension to ensure full coverage
+        const diagonal = Math.sqrt(width * width + height * height);
+        // Multiply by 10 to ensure the mask covers the entire viewport and image
+        return diagonal * 10;
     };
 
     // Calculate maximum mask size (should cover entire viewport)
-    const maxMaskSize = getViewportSize() * 3; // 3x viewport for smooth reveal
+    const maxMaskSize = getViewportSize();
 
     // Initial mask size
     maskBlock.style.maskSize = '0px';
