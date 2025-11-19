@@ -79,7 +79,7 @@ body {
     -webkit-mask-size: 0px;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.3s ease;
 }
 
